@@ -86,7 +86,7 @@ namespace NzWalks.Controllers
     public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
     {
         //map or convert dto to domain model
-        var regionDomainModel = mapper.Map<RegionDto>(addRegionRequestDto);
+        var regionDomainModel = mapper.Map<Region>(addRegionRequestDto);
         
         regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
 
@@ -99,29 +99,29 @@ namespace NzWalks.Controllers
     //update region
     //put :: https://localhost:portnumber/api/regions/{id}
     [HttpPut]
-    [Route("{id:Guid}")]
-    public async Task <IActionResult> Update([FromRoute] Guid id,[FromBody] UpdateRegionRequestDto updateRegionRequestDto){
-        //we will check the id exist or not
-        var regionDomainModel =  mapper.Map<Region>(updateRegionRequestDto);
+[Route("{id:Guid}")]
+public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
+{
+    Console.WriteLine("We are inside the update");
+    Console.WriteLine($"Updating region with ID: {id}");
+    Console.WriteLine($"New Name: {updateRegionRequestDto.Name}");
+    Console.WriteLine($"New Code: {updateRegionRequestDto.Code}");
+    Console.WriteLine($"New RegionImageUrl: {updateRegionRequestDto.RegionImageUrl}");
 
-        await regionRepository.UpdateAsync(id,regionDomainModel);
+    var regionDomainModel = mapper.Map<Region>(updateRegionRequestDto);
+    var updatedRegion = await regionRepository.UpdateAsync(id, regionDomainModel);
 
-        if(regionDomainModel==null){
-            Console.WriteLine($"Region with ID: {id} not found");
-            return NotFound();
-        }
-        
-
-        //and then update the data in the database
-        //  dbContext.Entry(regionDomainModel).State = EntityState.Modified;
-        Console.WriteLine("Saving changes to the database");
-        await dbContext.SaveChangesAsync();
-        //CONVERT THE DOMAIN MODEL TO DTO NOW TO SHOW THE RESULT
-       var regionDto = mapper.Map<RegionDto>(regionDomainModel);
-        return Ok(regionDto);
-        // return Ok()
+    if (updatedRegion == null)
+    {
+        Console.WriteLine($"Region with ID: {id} not found");
+        return NotFound();
     }
-    
+
+    // Convert the updated domain model to DTO
+    var regionDto = mapper.Map<RegionDto>(updatedRegion);
+    return Ok(regionDto);
+}
+
 
     //DELETE THE REGION BASED ON THE ID 
     // DELETE :: https://localhost:portnumber/api/regions/{id}

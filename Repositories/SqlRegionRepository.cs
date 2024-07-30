@@ -19,10 +19,7 @@ namespace NzWalks{
             return region;
         }
 
-        public Task<RegionDto> CreateAsync(RegionDto regionDomainModel)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task<Region?> DeleteAsync(Guid Id)
 
@@ -47,19 +44,30 @@ namespace NzWalks{
             return dbContext.Regions.FirstOrDefault(x => x.Id == id);
         }
 
-        public async Task<Region> UpdateAsync(Guid Id ,Region region)
-        {
-            var existingRegion = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == region.Id);
+        public async Task<Region?> UpdateAsync(Guid id, Region region)
+{
+    // Using the correct id parameter to find the existing region
+    var existingRegion = await dbContext.Regions.FirstOrDefaultAsync(x => x.Id == id);
 
-            if(existingRegion == null) return null;
-            existingRegion.Code = region.Code;
-            existingRegion.Name = region.Name;    
-            existingRegion.RegionImageUrl = region.RegionImageUrl;
+    if (existingRegion == null)
+    {
+        Console.WriteLine($"Region with ID: {id} not found");
+        return null;
+    }
 
-            dbContext.Regions.Update(existingRegion);
-            
-            dbContext.SaveChangesAsync();
-            return region;
-        }
+    // Updating the properties
+    existingRegion.Code = region.Code;
+    existingRegion.Name = region.Name;
+    existingRegion.RegionImageUrl = region.RegionImageUrl;
+
+    // Explicitly attach the entity and mark it as modified
+    // dbContext.Entry(existingRegion).State = EntityState.Modified;
+
+    // Save changes to the database
+    await dbContext.SaveChangesAsync();
+
+    return existingRegion;
+}
+
     }
 }

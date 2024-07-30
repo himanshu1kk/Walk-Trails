@@ -12,6 +12,6 @@ namespace NzWalks{
         Task<Region?> UpdateAsync(Guid Id, Region region);
 
         Task<Region?> DeleteAsync(Guid Id);
-        Task<RegionDto> CreateAsync(RegionDto regionDomainModel);
+        // Task<RegionDto> CreateAsync(RegionDto regionDomainModel);
     }
 }

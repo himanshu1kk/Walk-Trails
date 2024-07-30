@@ -1,3 +1,5 @@
+using Microsoft.Net.Http.Headers;
+
 namespace NzWalks.Models.Dto{
     public class WalkDto{
         public Guid Id { get; set;} 
@@ -8,8 +10,10 @@ namespace NzWalks.Models.Dto{
 
         public string? WalkImageUrl{ get; set; }
 
-        public Guid DifficultyId { get; set; }
-        public Guid RegionId { get; set; }
+
+        public RegionDto Region {get;set;}
+        public DifficultyDto Difficulty {get;set;}
+
 
     }
 }

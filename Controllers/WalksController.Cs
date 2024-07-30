@@ -30,22 +30,71 @@ namespace NzWalks.Controllers
 
             //map this dto to the domain the model 
             // map add walks request dto to walsk model
-            Console.WriteLine("Check1 ");
-            var walkDomainModel = mapper.Map<Walk>(addWalksRequestDto);
-            Console.WriteLine("Check2 ");
+            
+            var walkDomainModel = mapper.Map<Walk>(addWalksRequestDto);//THIS LINE SAYS MAP THE ADD WALK REQUEST DTO TO WALK DOMAIN MODEL TAKI USME VO ID VHERAH APNE ADD HOJAYE
+
+            
 
             await walkRepository.CreateAsync(walkDomainModel);
-            Console.WriteLine("Check3 ");
+            
             //map domain model to to the dto model
            var walkDtoModel = mapper.Map<WalkDto>(walkDomainModel);
-           Console.WriteLine("Check4");
+           
 
 
             return Ok(walkDtoModel);
 
 
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllWalk(){
+            var walkDomainModel = await walkRepository.GetAllWalkAsync();
+            //it is a domain model we need to convert it into the dto model by using mapper
+            Console.WriteLine("Converting domain model to dto model for ");
+            var walkDto = mapper.Map<List<WalkDto>>(walkDomainModel);
+            return Ok(walkDto);
+
+
+
+        }
+        [HttpGet]
+        [Route("{id:Guid}")]
+        //we will pass the id to the fucntion with the route means jb hm swagger mai id dalnege to ye vali cheeze run kregi u know
+        public async Task<IActionResult> GetWalkById([FromRoute] Guid id){
+            //search for the id in the database if we get a null then we return a null and else we will return the domain model adn then we will convert the domain model to the dto model and will showit to user
+            var walkDomainModel = await walkRepository.GetWalkByIdAsync(id);
+            Console.WriteLine("Check once ");
+
+            if(walkDomainModel == null){
+                return NotFound();
+            }
+        // map the domain model to the dto one and then return 
+        var dtoModel = mapper.Map<WalkDto>(walkDomainModel);
+        return Ok(dtoModel);
+        }
+
+        //now we will have an update method for the walk part means what we will do is we need to know the id and then verify that it is the correct id and then pass a walkupdatedto model so that we can then map it to the domain model and then pass the domain model to db and in from the db we will get the domain model and then convert it into the dto model of the walk part so how we will do it
+        [HttpPut]
+        [Route("{id:Guid}")]
+
+        public async Task<IActionResult> UpdateWalkById([FromRoute] Guid id,[FromBody] UpdateWalkRequestDto updateWalkRequestDto ){
+            //write one console here
+            Console.WriteLine("[UpdateWalk");
+            var walkDomainModel = mapper.Map<Walk>(updateWalkRequestDto);
+            walkDomainModel =  await walkRepository.UpdateWalkAsync(id,walkDomainModel);
+
+        //if walkdomainmodel is null return null
+        if( walkDomainModel==null){
+            Console.WriteLine("No walk domain model");
+            return NotFound();
+        }
+        //map it to the dto model
+        var walkDtoModel  =mapper.Map<WalkDto>(walkDomainModel);
+        return Ok(walkDtoModel);
+
+        
 
     }
 
+}
 }
