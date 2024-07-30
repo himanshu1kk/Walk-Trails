@@ -28,7 +28,18 @@ namespace NzWalks{
 
         
 
-        public async Task<List<Walk>> GetAllWalkAsync(){
+        public async Task<List<Walk>> GetAllWalkAsync(string ? filterOn=null,string?filterQuery=null){
+            var walks = dbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
+            //filtering
+            if(string.IsNullOrWhiteSpace(filterOn)==false && string.IsNullOrWhiteSpace(filterQuery)==false){
+                if(filterOn.Equals("Name",StringComparison.OrdinalIgnoreCase)){
+
+                }
+
+            }
+            return await  walks.ToListAsync();
+            
+            
             return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
             //it will collect the difficulty from the difficulty table use the difficulty id it has and sililarly it will collect the region from the region id it has
     }

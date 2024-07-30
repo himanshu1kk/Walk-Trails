@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using NzWalks.CustomActionFilter;
 using NzWalks.Data;
 using NzWalks.Models.Domain;
 using NzWalks.Models.Dto;
@@ -81,11 +82,12 @@ namespace NzWalks.Controllers
 
    
     }
-    [HttpPost]
+   [HttpPost]
+[ValidateModel]  // Custom attribute to validate model state
     // [Route]
     public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
     {
-        //map or convert dto to domain model
+        //map or convert dto to domain 
         var regionDomainModel = mapper.Map<Region>(addRegionRequestDto);
         
         regionDomainModel = await regionRepository.CreateAsync(regionDomainModel);
@@ -93,15 +95,19 @@ namespace NzWalks.Controllers
         //map domain model to dto
         var regionDto = mapper.Map<RegionDto>(regionDomainModel); 
         Console.WriteLine(regionDto);
-        return CreatedAtAction(nameof(GetById),new {id = regionDomainModel.Id},regionDto);
+        // return CreatedAtAction(nameof(GetById),new {id = regionDomainModel.Id},regionDto);
+        return Ok(regionDto);
 
     }
+    
     //update region
     //put :: https://localhost:portnumber/api/regions/{id}
     [HttpPut]
+    [ValidateModel] 
 [Route("{id:Guid}")]
 public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
 {
+ 
     Console.WriteLine("We are inside the update");
     Console.WriteLine($"Updating region with ID: {id}");
     Console.WriteLine($"New Name: {updateRegionRequestDto.Name}");
@@ -120,7 +126,9 @@ public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRe
     // Convert the updated domain model to DTO
     var regionDto = mapper.Map<RegionDto>(updatedRegion);
     return Ok(regionDto);
-}
+    }
+    
+
 
 
     //DELETE THE REGION BASED ON THE ID 

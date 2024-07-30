@@ -47,7 +47,8 @@ namespace NzWalks.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllWalk(){
+       //get :: /API/WALKS?FILTERON=NAME&FILTERQUERY=TRACK 
+        public async Task<IActionResult> GetAllWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery){//so the concept is we can filter on the basis of colums available in the db or in the walks table so now u can decide kis basi mai filtering krni hai
             var walkDomainModel = await walkRepository.GetAllWalkAsync();
             //it is a domain model we need to convert it into the dto model by using mapper
             Console.WriteLine("Converting domain model to dto model for ");
