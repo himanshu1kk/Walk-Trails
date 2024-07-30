@@ -1,27 +1,32 @@
 using Microsoft.EntityFrameworkCore;
-using NzWalks;
 using NzWalks.Data;
 using NzWalkspace.Mapping;
+using AutoMapper;
+using NzWalks;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<NzWalksDbContext>(options=>
-options.UseSqlServer(builder.Configuration.GetConnectionString("NzWalksConnectionString")));
+builder.Services.AddDbContext<NzWalksDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("NzWalksConnectionString")));
 
-builder.Services.AddScoped<IRegionRepository,SQLRegionRepository>();
-builder.Services.AddScoped<IWalkRepository,SQLWalkRepository>();
+builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 
-//when someone call the iregion repository they will get the implementation of the InMemoryRegionRepository
-
+// Register AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 // Add controllers
 builder.Services.AddControllers();
 
 var app = builder.Build();
+// Validate AutoMapper configuration
+// Validate AutoMapper configuration
+var mapper = app.Services.GetRequiredService<IMapper>();
+mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -33,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+
 
 // Map controllers
 app.MapControllers();
