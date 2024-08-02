@@ -138,3 +138,10 @@ C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\runtimes\win\lib\net6.0\
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\NzWalks.sourcelink.json
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.Extensions.Options.dll

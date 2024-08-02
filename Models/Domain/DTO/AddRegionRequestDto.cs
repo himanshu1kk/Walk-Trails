@@ -11,8 +11,9 @@ namespace NzWalks.Models.Dto{
 
         
         [Required]
-        [MaxLength(3,ErrorMessage ="Name has to be maximum of 100 characters")]
+        [MinLength(3,ErrorMessage ="Name has to be minimum of 3 characters")]
 
+        [MaxLength(3,ErrorMessage ="Name has to be maximum of 100 characters")]
         public  string Name { get; set; }
         public string? RegionImageUrl { get; set; }
     }
