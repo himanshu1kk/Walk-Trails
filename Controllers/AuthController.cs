@@ -22,10 +22,12 @@ namespace NzWalks.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly ITokenRepository tokenRepository;
 
-        public AuthController(UserManager<IdentityUser> userManager)
+        public AuthController(UserManager<IdentityUser> userManager,ITokenRepository tokenRepository)
         {
             this.userManager = userManager;
+            this.tokenRepository = tokenRepository;
         }
 
         // POST: /api/Auth/Register
@@ -72,7 +74,14 @@ namespace NzWalks.Controllers
                 var checkPasswordResult = await userManager.CheckPasswordAsync(user,loginRequestDto.Password);
                 if(checkPasswordResult){
                     //succesful login hogya hai now we can assign the toke to the user
-                    return Ok("User Logined Successfully");
+                    var roles = await userManager.GetRolesAsync(user);
+                    if(roles!=null){
+                    var jwtToken = tokenRepository.CreateJwtToken(user,roles.ToList());
+                    var response = new LoginResponseDto{
+                        JwtToken = jwtToken
+                    };
+                    return Ok(response);
+                }
                 }
         }   
         return BadRequest("Uername or password incorrect");

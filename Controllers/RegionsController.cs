@@ -13,9 +13,9 @@ using System.Collections.Generic;
 namespace NzWalks.Controllers
 {
     //https://localhost:portnumber/api/regions
-    [ApiController]
+    
     [Route("api/[controller]")]
-    [Authorize]
+    
     public class RegionsController : ControllerBase
     {
         private readonly NzWalksDbContext dbContext;
@@ -32,6 +32,7 @@ namespace NzWalks.Controllers
 
         // We need to create the actions method
         [HttpGet]
+        [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetAll()
         {
             // previosuly we were using the 
@@ -65,6 +66,8 @@ namespace NzWalks.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")]
+        [Authorize(Roles = "Reader")]
+
         public  async Task<IActionResult> GetById([FromRoute]Guid id){
             
         
@@ -85,7 +88,10 @@ namespace NzWalks.Controllers
    
     }
    [HttpPost]
-[ValidateModel]  // Custom attribute to validate model state
+[ValidateModel]
+    [Authorize(Roles = "Writer")]
+
+  // Custom attribute to validate model state
     // [Route]
     public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto) 
     {
@@ -107,6 +113,7 @@ namespace NzWalks.Controllers
     [HttpPut]
     [ValidateModel] 
 [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer")]
 public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
 {
  
@@ -137,8 +144,11 @@ public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRe
     // DELETE :: https://localhost:portnumber/api/regions/{id}
     [HttpDelete]
     [Route("{id:Guid}")]
+        [Authorize(Roles = "Writer,Reader")]
     public async Task<IActionResult> Delete([FromRoute] Guid id){
         //we will check the id exist or not
+                     Console.WriteLine("Delete hua ki nhi0");
+
        var regionDomainModel = await regionRepository.DeleteAsync(id);
         //remove from database'
         if(regionDomainModel==null){
@@ -153,6 +163,7 @@ public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRe
             RegionImageUrl = regionDomainModel.RegionImageUrl
         };
         // return Ok()
+
         return Ok(regionDto);
        }
     
