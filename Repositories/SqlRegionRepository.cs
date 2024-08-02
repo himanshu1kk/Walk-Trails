@@ -29,7 +29,10 @@ namespace NzWalks{
                 return null;
             }
              dbContext.Regions.Remove(existingRegion);
+             Console.WriteLine("Delete hua ki nhi");
              await dbContext.SaveChangesAsync();
+                          Console.WriteLine("Delete hua ki nhi2");
+
              return existingRegion;
         }
 
