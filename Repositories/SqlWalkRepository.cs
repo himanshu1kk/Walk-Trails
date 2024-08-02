@@ -28,24 +28,41 @@ namespace NzWalks{
 
         
 
-        public async Task<List<Walk>> GetAllWalkAsync(string ? filterOn=null,string?filterQuery=null){
+        public async Task<List<Walk>> GetAllWalkAsync(string ? filterOn=null,string?filterQuery=null,string? sortBy = null,bool isAscending = true,int pageNumber = 1,int pageSize = 100){
             var walks = dbContext.Walks.Include("Difficulty").Include("Region").AsQueryable();
             //filtering
             if(string.IsNullOrWhiteSpace(filterOn)==false && string.IsNullOrWhiteSpace(filterQuery)==false){
                 if(filterOn.Equals("Name",StringComparison.OrdinalIgnoreCase)){
+                    walks = walks.Where(x=> x.Name.Contains(filterQuery));
 
                 }
 
             }
-            return await  walks.ToListAsync();
+            //sorting
+            if(string.IsNullOrWhiteSpace(sortBy)==false)
+            {
+                if(sortBy.Equals("Name",StringComparison.OrdinalIgnoreCase)){
+                    walks = isAscending? walks.OrderBy(x=>x.Name): walks.OrderByDescending(x=>x.Name);
+                }
+                else if(sortBy.Equals("Length",StringComparison.OrdinalIgnoreCase)){
+                    walks = isAscending? walks.OrderBy(x=>x.LengthInKm): walks.OrderByDescending(x=>x.LengthInKm);
+            }
+            }
+            //pagination
+            var skipResults = (pageNumber-1)* pageSize;
+
+
+            return await  walks.Skip(skipResults).Take(pageSize).ToListAsync();
             
             
-            return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
+            // return await dbContext.Walks.Include("Difficulty").Include("Region").ToListAsync();
             //it will collect the difficulty from the difficulty table use the difficulty id it has and sililarly it will collect the region from the region id it has
     }
 
-    //now we want to get a single walk by its id so what will be the steps
-    public async Task<Walk?> GetWalkByIdAsync(Guid Id){
+        
+
+        //now we want to get a single walk by its id so what will be the steps
+        public async Task<Walk?> GetWalkByIdAsync(Guid Id){
         // if(Id == null){
         //     return null;
         Console.WriteLine("Yha aaye kki nhi");

@@ -47,9 +47,9 @@ namespace NzWalks.Controllers
 
         }
         [HttpGet]
-       //get :: /API/WALKS?FILTERON=NAME&FILTERQUERY=TRACK 
-        public async Task<IActionResult> GetAllWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery){//so the concept is we can filter on the basis of colums available in the db or in the walks table so now u can decide kis basi mai filtering krni hai
-            var walkDomainModel = await walkRepository.GetAllWalkAsync();
+       //get :: /API/WALKS?FILTERON=NAME&FILTERQUERY=TRACK & sortby = name & isascending = true&pageNumber = 1& pagesizw = 10
+           public async Task<IActionResult> GetAllWalk([FromQuery] string? filterOn, [FromQuery] string? filterQuery,[FromQuery] string? sortBy , [FromQuery] bool? isAscending ,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 1000){//so the concept is we can filter on the basis of colums available in the db or in the walks table so now u can decide kis basi mai filtering krni hai
+            var walkDomainModel = await walkRepository.GetAllWalkAsync(filterOn,filterQuery,sortBy,isAscending??true,pageNumber,pageSize);
             //it is a domain model we need to convert it into the dto model by using mapper
             Console.WriteLine("Converting domain model to dto model for ");
             var walkDto = mapper.Map<List<WalkDto>>(walkDomainModel);
