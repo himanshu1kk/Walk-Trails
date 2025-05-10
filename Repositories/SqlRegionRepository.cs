@@ -15,6 +15,8 @@ namespace NzWalks{
         public async Task<Region> CreateAsync(Region region)
         {
            await  dbContext.Regions.AddAsync(region);
+           //ad async method to add the regions to the databases and then save changes 
+           //dbContext.Regions.AddAsync(region);
             await dbContext.SaveChangesAsync();
             return region;
         }
@@ -29,9 +31,12 @@ namespace NzWalks{
                 return null;
             }
              dbContext.Regions.Remove(existingRegion);
+             //getallasync 
+             //dbConetxt.Regions.Remove(existingRegion);
+        //existing regions was fetched from the if await dbContext.Regions.FirstOrDefaultAsync(x=>x.Id = Id);
              Console.WriteLine("Delete hua ki nhi");
              await dbContext.SaveChangesAsync();
-                          Console.WriteLine("Delete hua ki nhi2");
+            Console.WriteLine("Delete hua ki nhi2");
 
              return existingRegion;
         }

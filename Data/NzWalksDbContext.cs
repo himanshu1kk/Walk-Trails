@@ -10,6 +10,9 @@ namespace NzWalks.Data{
          public DbSet<Region> Regions { get; set; }
           public DbSet<Walk> Walks { get; set; }
 
+        public DbSet<Image> Images{get;set;}
+        public DbSet<User> Users { get; set; } // DbSet for User
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -32,9 +32,10 @@ namespace NzWalks.Controllers
 
         // We need to create the actions method
         [HttpGet]
-        [Authorize(Roles = "Reader,Writer")]
+        // [Authorize(Roles = "Reader,Writer")]
         public async Task<IActionResult> GetAll()
         {
+            Console.WriteLine("hello anyone listening");
             // previosuly we were using the 
             // dbContext.Regions.ToListAsync();
             // to get all regions from the database and return them as a list of RegionDto
@@ -66,7 +67,7 @@ namespace NzWalks.Controllers
 
         [HttpGet]
         [Route("{id:Guid}")]
-        [Authorize(Roles = "Reader")]
+        // [Authorize(Roles = "Reader")]
 
         public  async Task<IActionResult> GetById([FromRoute]Guid id){
             
@@ -88,8 +89,8 @@ namespace NzWalks.Controllers
    
     }
    [HttpPost]
-[ValidateModel]
-    [Authorize(Roles = "Writer")]
+// [ValidateModel]
+    // [Authorize(Roles = "Writer")]
 
   // Custom attribute to validate model state
     // [Route]
@@ -112,8 +113,8 @@ namespace NzWalks.Controllers
     //put :: https://localhost:portnumber/api/regions/{id}
     [HttpPut]
     [ValidateModel] 
-[Route("{id:Guid}")]
-        [Authorize(Roles = "Writer")]
+    [Route("{id:Guid}")]
+    // [Authorize(Roles = "Writer")]
 public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRegionRequestDto updateRegionRequestDto)
 {
  
@@ -144,7 +145,7 @@ public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateRe
     // DELETE :: https://localhost:portnumber/api/regions/{id}
     [HttpDelete]
     [Route("{id:Guid}")]
-        [Authorize(Roles = "Writer,Reader")]
+        // [Authorize(Roles = "Writer,Reader")]
     public async Task<IActionResult> Delete([FromRoute] Guid id){
         //we will check the id exist or not
                      Console.WriteLine("Delete hua ki nhi0");
