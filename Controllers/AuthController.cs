@@ -84,7 +84,7 @@ namespace NzWalks.Controllers
                 }
                 }
         }   
-        return BadRequest("Uername or password incorrect");
+        return BadRequest("Uername or password incorrect"); //incorrect one 
 
     }
 }
