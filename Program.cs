@@ -7,6 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
 using NzWalks;
 using Microsoft.OpenApi.Models;
+using NzWalks.Services.Registration;
+using NzWalks.Services.Verification;
+using NzWalks.Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,8 +53,11 @@ builder.Services.AddDbContext<NzWalksAuthDbContext>(options =>
 
 // Register repositories
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IVerificationService, VerificationService>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

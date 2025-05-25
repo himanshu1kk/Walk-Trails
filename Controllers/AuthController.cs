@@ -1,91 +1,68 @@
-using AutoMapper;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using NzWalks.CustomActionFilter;
 using NzWalks.Data;
-using NzWalks.Models.Domain;
-using NzWalks.Models.Dto;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+using NzWalks.Models;
+using NzWalks.Models.DTO;
+using NzWalks.Services.Authentication;
+using NzWalks.Utils;
 
 namespace NzWalks.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/v1")]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> userManager;
-        private readonly ITokenRepository tokenRepository;
+        private readonly IAuthenticationService authenticationService;
+        private readonly NzWalksDbContext dbContext;
 
-        public AuthController(UserManager<IdentityUser> userManager,ITokenRepository tokenRepository)
+        public AuthController(IAuthenticationService authenticationService, NzWalksDbContext dbContext)
         {
-            this.userManager = userManager;
-            this.tokenRepository = tokenRepository;
+            this.authenticationService = authenticationService;
+            this.dbContext = dbContext;
+
         }
 
-        // POST: /api/Auth/Register
-        [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestDto registerRequestDto)
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] ManualLogin loginDetails)
         {
-            Console.WriteLine("Hello Bhai1");
-            var identityUser = new IdentityUser
+
+            try
             {
-                UserName = registerRequestDto.Username,
-                Email = registerRequestDto.Username
-            };
-                        Console.WriteLine("Hello Bhai2");
+                if (loginDetails.ManualLoginType != ManualLoginType.EMAIL_WITH_PASSOWRD)
+                    return BadRequest(new { error = "Unknown login type." });
 
+                // Lookup user by email
+                var existingUser = await dbContext.Users
+                .FirstOrDefaultAsync(u => u.Email == loginDetails.Email);
+                if (existingUser == null)
+                    return Unauthorized(new { error = "Invalid email or password." });
+                Console.WriteLine("here1");
+                Console.WriteLine(existingUser.UserId);
 
-            var identityResult = await userManager.CreateAsync(identityUser, registerRequestDto.Password);
-            if (identityResult.Succeeded)
-            {
-                                        Console.WriteLine("Hello Bhai3");
+                // Hash password with UserId (to match your registration logic)
+                var hashedPassword = Hashing_md5.ComputeHash(loginDetails.Email, loginDetails.Password);
 
-                // Add roles to this user
-                if (registerRequestDto.Roles != null && registerRequestDto.Roles.Any())
+                // Authenticate and generate JWT if valid
+                var authResult = await authenticationService.AuthenticateAsync(existingUser.UserId, hashedPassword);
+
+                // if (!authResult.Success)
+                //     return Unauthorized(new { error = "Invalid email or password." });
+
+                // Optionally: Add scheme if you want AuthScheme in response
+                return Ok(new AuthResponse
                 {
-                    foreach (var role in registerRequestDto.Roles)
-                    {
-                        var roleResult = await userManager.AddToRoleAsync(identityUser, role);
-                        if (!roleResult.Succeeded)
-                        {
-                            return BadRequest("Failed to add roles.");
-                        }
-                    }
-                }
-                return Ok("User was registered! Please login.");
+                    Success = true,
+                    JwtToken = authResult.JwtToken
+                });
             }
-            return BadRequest("Something went wrong.");
+            catch (Exception ex)
+            {
+                // Optional: Log exception here
+                return Problem("Something went wrong :(");
+            }
         }
-    
-        //post : /api/auth/login
-        [HttpPost]
-
-        public async Task<IActionResult> Login([FromBody] LoginRequestDto loginRequestDto){
-            var user = await userManager.FindByNameAsync(loginRequestDto.Username);
-            if(user != null){
-                var checkPasswordResult = await userManager.CheckPasswordAsync(user,loginRequestDto.Password);
-                if(checkPasswordResult){
-                    //succesful login hogya hai now we can assign the toke to the user
-                    var roles = await userManager.GetRolesAsync(user);
-                    if(roles!=null){
-                    var jwtToken = tokenRepository.CreateJwtToken(user,roles.ToList());
-                    var response = new LoginResponseDto{
-                        JwtToken = jwtToken
-                    };
-                    return Ok(response);
-                }
-                }
-        }   
-        return BadRequest("Uername or password incorrect"); //incorrect one 
-
     }
-}
 }

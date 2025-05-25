@@ -51,6 +51,46 @@ namespace NzWalks.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("NzWalks.Models.DTO.UserVerification", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasAnnotation("Relational:JsonPropertyName", "id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2")
+                        .HasAnnotation("Relational:JsonPropertyName", "createdAt");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasAnnotation("Relational:JsonPropertyName", "userEmail");
+
+                    b.Property<DateTime>("ExpireAt")
+                        .HasColumnType("datetime2")
+                        .HasAnnotation("Relational:JsonPropertyName", "expireAt");
+
+                    b.Property<bool>("IsTestData")
+                        .HasColumnType("bit")
+                        .HasAnnotation("Relational:JsonPropertyName", "isTestData");
+
+                    b.Property<int>("VerificationAttemptsLeft")
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "verificationAttemptsLeft");
+
+                    b.Property<int>("VerificationCode")
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "verificationCode");
+
+                    b.Property<int>("VerificationType")
+                        .HasColumnType("int")
+                        .HasAnnotation("Relational:JsonPropertyName", "verificationType");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserVerificationDb");
+                });
+
             modelBuilder.Entity("NzWalks.Models.Domain.Difficulty", b =>
                 {
                     b.Property<Guid>("Id")
@@ -60,6 +100,9 @@ namespace NzWalks.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Toughness")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -93,11 +136,26 @@ namespace NzWalks.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CountryName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DistrictName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LocalRegionName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PinCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RegionImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StateName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -137,26 +195,48 @@ namespace NzWalks.Migrations
 
             modelBuilder.Entity("NzWalks.Models.Domain.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly?>("DateOfBirth")
+                        .HasColumnType("date");
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
+                    b.Property<int?>("PointsAdded")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RegistrationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("RegistrationStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserImageUrl")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -173,6 +253,9 @@ namespace NzWalks.Migrations
 
                     b.Property<Guid>("DifficultyId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<double?>("EstimatedDurationHours")
+                        .HasColumnType("float");
 
                     b.Property<double>("LengthInKm")
                         .HasColumnType("float");
