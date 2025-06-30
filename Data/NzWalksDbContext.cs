@@ -17,6 +17,10 @@ namespace NzWalks.Data
         public DbSet<Image> Images { get; set; }
         public DbSet<User> Users { get; set; } 
         public DbSet<UserVerification> UserVerificationDb { get; set; } 
+        public DbSet<Attraction> Attractions { get; set; }
+        
+        public DbSet<AttractionImage> AttractionImages { get; set; }
+        public DbSet<Location> LocationInfos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +31,30 @@ namespace NzWalks.Data
             modelBuilder.Entity<User>().Property(u => u.UserId).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique(); // Optional: Unique email
+
+
+          modelBuilder.Entity<Attraction>(entity => 
+        {
+            entity.HasKey(a => a.Id);
+            entity.ToTable("Attractions");
+        });
+
+        // AttractionImage - Primary key + FK index
+        modelBuilder.Entity<AttractionImage>(entity => 
+        {
+            entity.HasKey(ai => ai.Id);
+            entity.ToTable("AttractionImages");
+            entity.HasIndex(ai => ai.AttractionId); // Optional performance improvement
+        });
+
+        // Location - Primary key + unique FK for 1:1 relationship
+        modelBuilder.Entity<Location>(entity => 
+        {
+            entity.HasKey(l => l.Id);
+            entity.ToTable("Locations");
+            entity.HasIndex(l => l.AttractionId).IsUnique(); // Enforces 1:1
+        });
+
 
             // Seed Difficulties
             var difficulties = new List<Difficulty>

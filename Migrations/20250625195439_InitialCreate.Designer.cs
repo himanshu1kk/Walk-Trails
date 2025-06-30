@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NzWalks.Data;
 
@@ -11,9 +12,11 @@ using NzWalks.Data;
 namespace NzWalks.Migrations
 {
     [DbContext(typeof(NzWalksDbContext))]
-    partial class NzWalksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250625195439_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,72 +94,15 @@ namespace NzWalks.Migrations
                     b.ToTable("UserVerificationDb");
                 });
 
-            modelBuilder.Entity("NzWalks.Models.Domain.Attraction", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AdminRating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CoverImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Disliked")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Favorites")
-                        .HasColumnType("int");
-
-                    b.Property<double?>("LengthInKm")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotToMiss")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StudentTip")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Suggestions")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Upvotes")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Attractions", (string)null);
-                });
-
             modelBuilder.Entity("NzWalks.Models.Domain.AttractionImage", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AttractionId")
+                    b.Property<string>("AttractionsModelId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("AttractionsModelId");
 
                     b.Property<string>("Caption")
                         .IsRequired()
@@ -168,9 +114,58 @@ namespace NzWalks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttractionId");
+                    b.HasIndex("AttractionsModelId");
 
-                    b.ToTable("AttractionImages", (string)null);
+                    b.ToTable("AttractionImages");
+                });
+
+            modelBuilder.Entity("NzWalks.Models.Domain.AttractionsModel", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("AttractionCoverImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AttractionName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AttractionType")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("LengthInKm")
+                        .HasColumnType("float");
+
+                    b.Property<string>("NotToMissOut")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RatingsByAdmin")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Suggestion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id")
+                        .HasName("PK_Attractions");
+
+                    b.ToTable("Attractions");
                 });
 
             modelBuilder.Entity("NzWalks.Models.Domain.Difficulty", b =>
@@ -208,12 +203,13 @@ namespace NzWalks.Migrations
                         });
                 });
 
-            modelBuilder.Entity("NzWalks.Models.Domain.Location", b =>
+            modelBuilder.Entity("NzWalks.Models.Domain.LocationInfo", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("AttractionId")
+                    b.Property<string>("AttractionsModelId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
@@ -237,10 +233,10 @@ namespace NzWalks.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttractionId")
+                    b.HasIndex("AttractionsModelId")
                         .IsUnique();
 
-                    b.ToTable("Locations", (string)null);
+                    b.ToTable("LocationInfos");
                 });
 
             modelBuilder.Entity("NzWalks.Models.Domain.Region", b =>
@@ -396,6 +392,28 @@ namespace NzWalks.Migrations
                     b.ToTable("Walks");
                 });
 
+            modelBuilder.Entity("NzWalks.Models.Domain.AttractionImage", b =>
+                {
+                    b.HasOne("NzWalks.Models.Domain.AttractionsModel", "AttractionsModel")
+                        .WithMany("MoreImages")
+                        .HasForeignKey("AttractionsModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttractionsModel");
+                });
+
+            modelBuilder.Entity("NzWalks.Models.Domain.LocationInfo", b =>
+                {
+                    b.HasOne("NzWalks.Models.Domain.AttractionsModel", "AttractionsModel")
+                        .WithOne("LocationInfo")
+                        .HasForeignKey("NzWalks.Models.Domain.LocationInfo", "AttractionsModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AttractionsModel");
+                });
+
             modelBuilder.Entity("NzWalks.Models.Domain.Walk", b =>
                 {
                     b.HasOne("NzWalks.Models.Domain.Difficulty", "Difficulty")
@@ -413,6 +431,14 @@ namespace NzWalks.Migrations
                     b.Navigation("Difficulty");
 
                     b.Navigation("Region");
+                });
+
+            modelBuilder.Entity("NzWalks.Models.Domain.AttractionsModel", b =>
+                {
+                    b.Navigation("LocationInfo")
+                        .IsRequired();
+
+                    b.Navigation("MoreImages");
                 });
 #pragma warning restore 612, 618
         }

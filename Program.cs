@@ -10,6 +10,9 @@ using Microsoft.OpenApi.Models;
 using NzWalks.Services.Registration;
 using NzWalks.Services.Verification;
 using NzWalks.Services.Authentication;
+using NzWalks.Service.Attract;
+using NzWalks.Services.Attractions;
+// using NzWalks.Service.Attract;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,6 +61,7 @@ builder.Services.AddScoped<IVerificationService, VerificationService>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IAttractionService, AttractionService>();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
@@ -98,6 +102,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Add CORS support
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://127.0.0.1:5500", "http://127.0.0.1:5501")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 // Validate AutoMapper configuration
@@ -110,7 +124,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowFrontend");
 app.UseHttpsRedirection(); // Re-enable HTTPS redirection
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +7,7 @@ using NzWalks.Data;
 using NzWalks.Models;
 using NzWalks.Models.DTO;
 using NzWalks.Services.Authentication;
+using NzWalks.Services.Verification;
 using NzWalks.Utils;
 
 namespace NzWalks.Controllers
@@ -16,10 +18,12 @@ namespace NzWalks.Controllers
     {
         private readonly IAuthenticationService authenticationService;
         private readonly NzWalksDbContext dbContext;
+        private readonly IVerificationService verificationService;
 
         public AuthController(IAuthenticationService authenticationService, NzWalksDbContext dbContext)
         {
             this.authenticationService = authenticationService;
+            this.verificationService  = verificationService;
             this.dbContext = dbContext;
 
         }
@@ -31,6 +35,7 @@ namespace NzWalks.Controllers
 
             try
             {
+                Console.WriteLine("here1");
                 if (loginDetails.ManualLoginType != ManualLoginType.EMAIL_WITH_PASSOWRD)
                     return BadRequest(new { error = "Unknown login type." });
 
@@ -48,10 +53,6 @@ namespace NzWalks.Controllers
                 // Authenticate and generate JWT if valid
                 var authResult = await authenticationService.AuthenticateAsync(existingUser.UserId, hashedPassword);
 
-                // if (!authResult.Success)
-                //     return Unauthorized(new { error = "Invalid email or password." });
-
-                // Optionally: Add scheme if you want AuthScheme in response
                 return Ok(new AuthResponse
                 {
                     Success = true,
@@ -64,5 +65,58 @@ namespace NzWalks.Controllers
                 return Problem("Something went wrong :(");
             }
         }
+
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN, USER")]
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUserFromToken()
+        {
+            try
+            {
+                var userId = User.FindFirstValue("UserId");
+
+                var user = await dbContext.Users
+                    .Where(u => u.UserId == userId)
+                    .FirstOrDefaultAsync();
+
+                if (user == null)
+                {
+                    return NotFound(new { error = "User not found" });
+                }
+
+                // You can redact sensitive information like password
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                return Problem("Something went wrong :(");
+            }
+        }
+
+
+
+        // [AllowAnonymous]
+        // [HttpPost("resetpwdinit")]
+    //     public async Task<IActionResult> ResetPasswordInitiationAsync(
+    //        [FromBody] PasswordResetRequest passwordReset
+    //    )
+    //     {
+    //         try
+    //         {
+
+    //             var existingUser = await dbContext.Users
+    //      .FirstOrDefaultAsync(u => u.Email == passwordReset.Email);
+    //         ;
+
+    //         await verificationService.GenerateAndSendVerificationCodeAsync(
+    //           Models.VerificationCommunicationType.EMAIL,
+    //          existingUser.Email,
+    //           VerificationType.REGISTRATION_EMAIL);
+
+    //         catch (Exception ex)
+    //         {
+
+    //         }
+    //         }
     }
-}
+    }
+    

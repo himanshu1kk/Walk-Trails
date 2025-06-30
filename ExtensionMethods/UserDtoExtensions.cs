@@ -17,6 +17,7 @@ namespace NzWalks.Extensions
                 PointsAdded = 0,
                 RegistrationStatus = RegistrationStatus.UNVERIFIED,
                 Role = Role.USER
+
             };
             return user;
         }

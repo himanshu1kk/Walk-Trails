@@ -1,11 +1,11 @@
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\NzWalks.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\NzWalks.AssemblyInfoInputs.cache
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\NzWalks.AssemblyInfo.cs
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\appsettings.json
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\NzWalks.exe
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\NzWalks.deps.json
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\NzWalks.runtimeconfig.json
-C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\NzWalks.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\NzWalks.AssemblyInfoInputs.cache
-C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\NzWalks.AssemblyInfo.cs
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\staticwebassets.build.json
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\obj\Debug\net8.0\staticwebassets\msbuild.NzWalks.Microsoft.AspNetCore.StaticWebAssets.props
@@ -54,6 +54,7 @@ C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.OpenApi.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.SqlServer.Server.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Mono.TextTemplating.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
