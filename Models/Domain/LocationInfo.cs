@@ -18,12 +18,6 @@ public class Location
     public string Region { get; set; }
 
   
-    public double? Latitude { get; set; }
-
-
-    public double? Longitude { get; set; }
-
-  
     public string AttractionId { get; set; }
 
     public Location()

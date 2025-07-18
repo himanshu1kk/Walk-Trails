@@ -21,6 +21,9 @@ namespace NzWalks.Data
         
         public DbSet<AttractionImage> AttractionImages { get; set; }
         public DbSet<Location> LocationInfos { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public  DbSet<Contact> Contact{ get; set; } 
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,28 +35,34 @@ namespace NzWalks.Data
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique(); // Optional: Unique email
 
+              modelBuilder.Entity<Contact>().HasKey(u => u.ContactId);
+            modelBuilder.Entity<Contact>().Property(u => u.ContactId).IsRequired();
 
-          modelBuilder.Entity<Attraction>(entity => 
-        {
-            entity.HasKey(a => a.Id);
-            entity.ToTable("Attractions");
-        });
+            modelBuilder.Entity<Review>()
+       .HasKey(r => r.ReviewId);
+            modelBuilder.Entity<Attraction>(entity =>
+          {
+              entity.HasKey(a => a.Id);
+              entity.ToTable("Attractions");
+          });
 
-        // AttractionImage - Primary key + FK index
-        modelBuilder.Entity<AttractionImage>(entity => 
-        {
-            entity.HasKey(ai => ai.Id);
-            entity.ToTable("AttractionImages");
-            entity.HasIndex(ai => ai.AttractionId); // Optional performance improvement
-        });
+            // AttractionImage - Primary key + FK index
+            modelBuilder.Entity<AttractionImage>(entity =>
+            {
+                entity.HasKey(ai => ai.Id);
+                entity.ToTable("AttractionImages");
+                entity.HasIndex(ai => ai.AttractionId); // Optional performance improvement
+            });
 
-        // Location - Primary key + unique FK for 1:1 relationship
-        modelBuilder.Entity<Location>(entity => 
-        {
-            entity.HasKey(l => l.Id);
-            entity.ToTable("Locations");
-            entity.HasIndex(l => l.AttractionId).IsUnique(); // Enforces 1:1
-        });
+            // Location - Primary key + unique FK for 1:1 relationship
+            modelBuilder.Entity<Location>(entity =>
+            {
+                entity.HasKey(l => l.Id);
+                entity.ToTable("Locations");
+                entity.HasIndex(l => l.AttractionId).IsUnique(); // Enforces 1:1
+            });
+
+
 
 
             // Seed Difficulties

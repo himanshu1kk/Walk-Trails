@@ -12,6 +12,8 @@ using NzWalks.Services.Verification;
 using NzWalks.Services.Authentication;
 using NzWalks.Service.Attract;
 using NzWalks.Services.Attractions;
+using NzWalks.Services.ContactService;
+using NzWalks.Models.Domain;
 // using NzWalks.Service.Attract;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -62,6 +64,7 @@ builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAttractionService, AttractionService>();
+builder.Services.AddScoped<IContactService, ContactService>();
 
 // Register AutoMapper
 builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));

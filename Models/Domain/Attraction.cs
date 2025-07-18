@@ -36,6 +36,8 @@ public class Attraction
 
     public int? Disliked { get; set; } = 0;
 
+     public List<string> ?UpvotedByUsers { get; set; } = new List<string>();
+
 
     public Attraction()
     {

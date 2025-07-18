@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NzWalks.Data;
 
@@ -11,9 +12,11 @@ using NzWalks.Data;
 namespace NzWalks.Migrations
 {
     [DbContext(typeof(NzWalksDbContext))]
-    partial class NzWalksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250701202811_Hello7")]
+    partial class Hello7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,6 +141,7 @@ namespace NzWalks.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UpvotedByUsers")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Upvotes")
@@ -174,31 +178,6 @@ namespace NzWalks.Migrations
                     b.HasIndex("AttractionId");
 
                     b.ToTable("AttractionImages", (string)null);
-                });
-
-            modelBuilder.Entity("NzWalks.Models.Domain.Contact", b =>
-                {
-                    b.Property<string>("ContactId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Subject")
-                        .HasColumnType("int");
-
-                    b.HasKey("ContactId");
-
-                    b.ToTable("Contact");
                 });
 
             modelBuilder.Entity("NzWalks.Models.Domain.Difficulty", b =>
@@ -330,27 +309,6 @@ namespace NzWalks.Migrations
                             Name = "Tasmania",
                             RegionImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Hobart_City_Skyline.jpg/1200px-Hobart_City_Skyline.jpg"
                         });
-                });
-
-            modelBuilder.Entity("NzWalks.Models.Domain.Review", b =>
-                {
-                    b.Property<string>("ReviewId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Reviews")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ReviewId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("NzWalks.Models.Domain.User", b =>
