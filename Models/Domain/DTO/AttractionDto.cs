@@ -25,6 +25,8 @@ namespace NzWalks.Models.DTO
 
         public double? LengthInKm { get; set; }
 
+        public double? LengthIfTrek{ get; set; }
+
 
         public string CoverImageUrl { get; set; }
 
@@ -55,13 +57,15 @@ namespace NzWalks.Models.DTO
     /// </summary>
     public class LocationDto
     {
-        public string LocationId{ get; set; }
-            public string State { get; set; }
-        
-        
+        public string LocationId { get; set; }
+        public string State { get; set; }
+
+
         public string City { get; set; }
-        
+
         public string Region { get; set; }
+        
+        public string InstituteName { get; set; }
         
 
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NzWalks.Data;
 
@@ -11,9 +12,11 @@ using NzWalks.Data;
 namespace NzWalks.Migrations
 {
     [DbContext(typeof(NzWalksDbContext))]
-    partial class NzWalksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250803095305_Hello1111")]
+    partial class Hello1111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -145,9 +148,6 @@ namespace NzWalks.Migrations
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
-
-                    b.Property<double?>("LengthIfTrek")
-                        .HasColumnType("float");
 
                     b.Property<double?>("LengthInKm")
                         .HasColumnType("float");
@@ -285,10 +285,6 @@ namespace NzWalks.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InstituteName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Region")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -409,9 +405,6 @@ namespace NzWalks.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MFASecret")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")

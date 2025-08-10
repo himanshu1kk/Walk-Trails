@@ -20,6 +20,8 @@ public class Attraction
 
     public double? LengthInKm { get; set; }
 
+    public double? LengthIfTrek{ get; set; }
+
     public string CoverImageUrl { get; set; }
 
     public int AdminRating { get; set; }
@@ -37,6 +39,10 @@ public class Attraction
     public int? Disliked { get; set; } = 0;
 
      public List<string> ?UpvotedByUsers { get; set; } = new List<string>();
+
+     public int ReportCount{ get; set; } = 0;
+
+    public bool IsActive { get; set; } = true;
 
 
     public Attraction()

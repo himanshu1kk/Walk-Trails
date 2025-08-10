@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NzWalks.Data;
 
@@ -11,9 +12,11 @@ using NzWalks.Data;
 namespace NzWalks.Migrations
 {
     [DbContext(typeof(NzWalksDbContext))]
-    partial class NzWalksDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250720101331_Hello111")]
+    partial class Hello111
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +34,10 @@ namespace NzWalks.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Reason")
+                    b.Property<string>("Reason")
+                        .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("ReportedAt")
                         .HasColumnType("datetime2");
@@ -143,12 +147,6 @@ namespace NzWalks.Migrations
                     b.Property<int?>("Favorites")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<double?>("LengthIfTrek")
-                        .HasColumnType("float");
-
                     b.Property<double?>("LengthInKm")
                         .HasColumnType("float");
 
@@ -159,9 +157,6 @@ namespace NzWalks.Migrations
                     b.Property<string>("NotToMiss")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ReportCount")
-                        .HasColumnType("int");
 
                     b.Property<string>("StudentTip")
                         .HasColumnType("nvarchar(max)");
@@ -285,10 +280,6 @@ namespace NzWalks.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("InstituteName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Region")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -409,9 +400,6 @@ namespace NzWalks.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MFASecret")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")

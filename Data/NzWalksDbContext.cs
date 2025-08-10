@@ -23,6 +23,7 @@ namespace NzWalks.Data
         public DbSet<Location> LocationInfos { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public  DbSet<Contact> Contact{ get; set; } 
+        public DbSet<AttractionReport> AttractionReports { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -85,6 +86,15 @@ namespace NzWalks.Data
                 }
             };
             modelBuilder.Entity<Difficulty>().HasData(difficulties);
+
+            modelBuilder.Entity<AttractionReport>(entity =>
+{
+    entity.HasKey(r => r.Id);
+    entity.ToTable("AttractionReports");
+    entity.Property(r => r.Reason).IsRequired().HasMaxLength(500);
+    entity.HasIndex(r => r.AttractionId); // For filtering by attraction
+
+});
 
             // Seed Regions
             var regions = new List<Region>

@@ -26,6 +26,7 @@ namespace NzWalks.Models.Domain
         public RegistrationStatus? RegistrationStatus { get; set; }
 
         public Role Role { get; set; }
+         public string? MFASecret { get; set; }  // Will store the secret key used for Google Authenticator
 
 
 

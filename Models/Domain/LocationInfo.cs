@@ -20,6 +20,8 @@ public class Location
   
     public string AttractionId { get; set; }
 
+    public string InstituteName{ get; set; }
+
     public Location()
     {
         this.Id = Guid.NewGuid().ToString();
