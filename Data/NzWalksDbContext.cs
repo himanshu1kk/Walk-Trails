@@ -25,6 +25,8 @@ namespace NzWalks.Data
         public  DbSet<Contact> Contact{ get; set; } 
         public DbSet<AttractionReport> AttractionReports { get; set; }
 
+        public DbSet<Comment> Comment{ get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,7 +38,7 @@ namespace NzWalks.Data
             modelBuilder.Entity<User>().Property(u => u.Email).IsRequired();
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique(); // Optional: Unique email
 
-              modelBuilder.Entity<Contact>().HasKey(u => u.ContactId);
+            modelBuilder.Entity<Contact>().HasKey(u => u.ContactId);
             modelBuilder.Entity<Contact>().Property(u => u.ContactId).IsRequired();
 
             modelBuilder.Entity<Review>()
@@ -61,6 +63,12 @@ namespace NzWalks.Data
                 entity.HasKey(l => l.Id);
                 entity.ToTable("Locations");
                 entity.HasIndex(l => l.AttractionId).IsUnique(); // Enforces 1:1
+            });
+
+             modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.HasKey(ai => ai.CommentId);
+                entity.ToTable("CommnetsOnAttraction");
             });
 
 

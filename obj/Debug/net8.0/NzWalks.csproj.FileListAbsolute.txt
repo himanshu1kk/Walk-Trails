@@ -21,6 +21,8 @@ C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\NzWalks.pdb
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\AutoMapper.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Azure.Identity.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Azure.Storage.Blobs.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Azure.Storage.Common.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Humanizer.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
@@ -58,6 +60,7 @@ C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.ClientModel.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.CodeDom.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Composition.AttributedModel.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Composition.Convention.dll
@@ -67,6 +70,7 @@ C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Composition.Typed
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Configuration.ConfigurationManager.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Drawing.Common.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.IO.Hashing.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Memory.Data.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Runtime.Caching.dll
 C:\Users\kandp\Desktop\NZWALKS\NzWalks\bin\Debug\net8.0\System.Security.Cryptography.ProtectedData.dll
