@@ -107,9 +107,17 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://127.0.0.1:5500", "http://127.0.0.1:5501")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy
+            .WithOrigins(
+                "https://frontiend-mauve.vercel.app",
+                "https://frontiend-rdunec4d7-himanshus-projects-4401a1c4.vercel.app",
+                "http://127.0.0.1:5500",
+                "http://127.0.0.1:5501"
+            )
+            .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            .AllowAnyHeader();
+            // add this only if you need cookies/Authorization cross-site:
+            // .AllowCredentials();
     });
 });
 var app = builder.Build();
