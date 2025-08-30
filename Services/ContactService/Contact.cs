@@ -21,8 +21,6 @@ public class ContactService : IContactService
             Subject = contactDto.Subject,
             Message = contactDto.Message
         };
-
-        // Add to database
         await _dbContext.Contact.AddAsync(contact);
         await _dbContext.SaveChangesAsync();
 

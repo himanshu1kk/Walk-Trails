@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace NzWalks.Models.DTO;
+namespace NzWalks.Models.Domain;
 
 public class VerificationInfo
 {

@@ -1,10 +1,6 @@
 using System.Text.Json.Serialization;
+namespace NzWalks.Models.Domain;
 
-namespace NzWalks.Models.DTO;
-
-/// <summary>
-/// Data transfer object for sending or verifying user verification codes (email/phone).
-/// </summary>
 public class UserVerification
 {
     [JsonPropertyName("id")]

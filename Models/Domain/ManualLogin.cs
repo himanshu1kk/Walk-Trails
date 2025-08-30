@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace NzWalks{
+namespace NzWalks.Models.Domain{
     public class ManualLogin{
     public ManualLoginType ManualLoginType { get; set; }
     public string? Email { get; set; }

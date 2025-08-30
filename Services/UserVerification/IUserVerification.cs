@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using NzWalks.Models.DTO;
+using NzWalks.Models.Domain;
 
 namespace NzWalks.Services.Verification
 {

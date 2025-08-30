@@ -1,3 +1,6 @@
+using NzWalks.Models.DTO;
+namespace NzWalks.Models.Domain;
+
 public class AttractionReport
 {
     public string Id { get; set; }

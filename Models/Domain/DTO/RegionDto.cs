@@ -1,9 +1,0 @@
-namespace NzWalks.Models.Dto{
-    public class RegionDto{
-        public Guid Id { get; set; }//similairy i do not want id in the dto so we wil use a primary construtor in place of it 
-        public string Code{ get; set; }
-
-        public string Name { get; set; }
-        public string? RegionImageUrl { get; set; }
-    }
-}

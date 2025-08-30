@@ -4,19 +4,14 @@ namespace NzWalks.Models.Domain
     {
         public string ContactId { get; set; }
         public string FullName { get; set; }
-
         public string Email { get; set; }
-
         public Subject Subject { get; set; }
-
         public string Message { get; set; }
 
         public Contact()
         {
             this.ContactId = Guid.NewGuid().ToString();
         }
-
-
     }
 
     public enum Subject

@@ -10,7 +10,6 @@ public class VerificationDetails
 }
 
 
-
 public enum VerificationMode
 {
     EMAIL = 100

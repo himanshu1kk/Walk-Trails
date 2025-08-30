@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NzWalks.Data;
 using NzWalks.Models.DTO;
+using NzWalks.Models.Domain;
 
 namespace NzWalks.Services.Verification
 {
@@ -48,15 +49,15 @@ namespace NzWalks.Services.Verification
             await _dbContext.UserVerificationDb.AddAsync(verification);
             await _dbContext.SaveChangesAsync();
 
-            // Send code (stub)
-            // await SendEmailAsync(email, code, verificationType); we can use this type of function to send and email to the user using some third party service
+            
+            // await SendEmailAsync(email, code, verificationType); //to be integrated in next day
 
         }
 
 
     public async Task VerifyIncomingVerificationCodeAsync(VerificationInfo verificationInfo)
     {
-        var now = DateTime.UtcNow; //this is to make sure that user enetering the otp late then the expireation will not get the required result
+        var now = DateTime.UtcNow; 
 
         var verificationData = await _dbContext.UserVerificationDb
             .Where(v => v.VerificationType == verificationInfo.VerificationType

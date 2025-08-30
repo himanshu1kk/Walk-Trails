@@ -5,7 +5,6 @@ namespace NzWalks.Models.Domain;
 
 public class Location
 {
-    [Key]
     public string Id { get; set; }
 
  

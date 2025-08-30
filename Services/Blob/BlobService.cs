@@ -26,15 +26,15 @@ namespace NzWalks.Service.Blob;
             await blobClient.UploadAsync(stream, overwrite: true);
         }
 
-        // Generate SAS token (valid for 24 hours for example)
+
         if (blobClient.CanGenerateSasUri)
         {
             var sasBuilder = new BlobSasBuilder
             {
                 BlobContainerName = _containerName,
                 BlobName = fileName,
-                Resource = "b", // b = blob
-                ExpiresOn = DateTimeOffset.UtcNow.AddHours(24) // expires after 1 day
+                Resource = "b", 
+                ExpiresOn = DateTimeOffset.UtcNow.AddHours(24) 
             };
 
             sasBuilder.SetPermissions(BlobSasPermissions.Read);
@@ -43,7 +43,6 @@ namespace NzWalks.Service.Blob;
             return sasUri.ToString();
         }
 
-        // fallback: return raw URL (not useful unless container public)
         return blobClient.Uri.ToString();
     }
     

@@ -1,5 +1,4 @@
-using NzWalks.Models.DTO;
-
+namespace NzWalks.Models.DTO;
 public class PaginatedDto
 {
     public int Count { get; set; }

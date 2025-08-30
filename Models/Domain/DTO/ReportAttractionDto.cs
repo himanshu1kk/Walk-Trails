@@ -1,3 +1,5 @@
+namespace NzWalks.Models.DTO;
+
 public class ReportAttractionDto
 {
     public string AttractionId { get; set; }

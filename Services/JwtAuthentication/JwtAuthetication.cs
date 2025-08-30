@@ -34,10 +34,8 @@ namespace NzWalks.Services.Authentication
 
                 if (user == null)
                     throw new Exception("User not found . Invalid Email or Password");
-                Console.WriteLine("user id is" + user.UserId);
 
                 var token = GenerateJwtToken(user);
-                Console.WriteLine("token is " + token);
 
                 return new AuthResponse
                 {

@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using NzWalks.Models.Domain;
-
-
+namespace NzWalks.Models.Domain;
 public class UpdateAttractionDto
 {
     public string AttractionId { get; set; }
@@ -24,9 +24,5 @@ public class UpdateAttractionDto
     public string? City { get; set; }
     public string? Region { get; set; }
 
-    // Images with captions
     public List<ImageDto>? Images { get; set; } = new();
 }
-
-
-

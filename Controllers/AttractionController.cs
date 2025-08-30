@@ -1,4 +1,3 @@
-
 using System.Linq.Expressions;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -8,24 +7,19 @@ using NzWalks.Extensions;
 using NzWalks.Models.Domain;
 using NzWalks.Models.DTO;
 using NzWalks.Service.Attract;
-
-// using NzWalks.Service.Attract;
 using NzWalks.Services.Registration;
 
 namespace NzWalks.Controllers;
 
 [ApiController]
 [Route("api/v1")]
-
 public class AttractionController(
     IAttractionService attractionService,
     NzWalksDbContext nzWalksDbContext
 ) : ControllerBase
 {
-
     private readonly IAttractionService _attractionService = attractionService;
     private readonly NzWalksDbContext _nzWalksDbContext = nzWalksDbContext;
-
 
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,USER")]
     [HttpPost("create-attraction")]
@@ -45,18 +39,13 @@ public class AttractionController(
             {
                 message = "attracted added successfully",
                 attractionId = addAddtraction.Id
-
             });
-
-
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
-
-
 
     [HttpGet("get-attraction")]
     public async Task<IActionResult> GetAllAttractions(
@@ -69,7 +58,6 @@ public class AttractionController(
 
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN, USER")]
     [HttpGet("get-attraction-by-id")]
-
     public async Task<IActionResult> GetAttraction([FromQuery] string id)
     {
         try
@@ -81,14 +69,13 @@ public class AttractionController(
             }
             var attraction = await _attractionService.GetAttractionByIdAsync(id);
             return Ok(attraction);
-
         }
         catch (Exception ex)
         {
             throw new Exception("their is some error in getting the attraction", ex);
-
         }
     }
+
     [HttpGet("search-attraction")]
     public async Task<IActionResult> SearchAttractions(
         [FromQuery] string? searchTerm,
@@ -104,7 +91,6 @@ public class AttractionController(
         }
         catch (Exception ex)
         {
-            // Log the exception here
             return BadRequest(ex.Message);
         }
     }
@@ -115,15 +101,13 @@ public class AttractionController(
     {
         try
         {
-            var userId = User.FindFirstValue("UserId"); // Assuming user is authenticated
-            // userId = "456"
+            var userId = User.FindFirstValue("UserId");
 
             if (attractionDto == null)
             {
                 return BadRequest("Attraction data cannot be null");
             }
 
-            // Call service to update the attraction
             var updatedAttraction = await _attractionService.UpdateAttractionAsync(attractionDto, userId);
 
             if (updatedAttraction == null)
@@ -149,15 +133,13 @@ public class AttractionController(
     {
         try
         {
-            // Get user ID from JWT claims (simulated here as a string for example)
-            var userId = User.FindFirstValue("UserId"); // Get this from JWT or other user context
+            var userId = User.FindFirstValue("UserId");
 
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized("User ID not found in token");
 
             if (string.IsNullOrEmpty(attractionId))
                 return BadRequest("Attraction ID is required");
-
 
             var attraction = await _attractionService.UpvoteAttractionAsync(attractionId, userId);
 
@@ -177,7 +159,6 @@ public class AttractionController(
         }
     }
 
-    // API to add or update the Student Tip
     [HttpPost("add-student-tip")]
     public async Task<IActionResult> AddStudentTip([FromQuery] string attractionId, [FromBody] string studentTip)
     {
@@ -189,7 +170,6 @@ public class AttractionController(
             if (string.IsNullOrEmpty(studentTip))
                 return BadRequest("Student Tip is required");
 
-            // Call the service to add/update the Student Tip
             var updatedAttraction = await _attractionService.AddOrUpdateStudentTipAsync(attractionId, studentTip);
 
             if (updatedAttraction == null)
@@ -207,7 +187,6 @@ public class AttractionController(
         }
     }
 
-    // API to add or update the Favorites count
     [HttpPost("add-favorites")]
     public async Task<IActionResult> AddFavorites([FromQuery] string attractionId, [FromBody] int favorites)
     {
@@ -219,7 +198,6 @@ public class AttractionController(
             if (favorites < 0)
                 return BadRequest("Favorites cannot be negative");
 
-            // Call the service to add/update the Favorites count
             var updatedAttraction = await _attractionService.AddOrUpdateFavoritesAsync(attractionId, favorites);
 
             if (updatedAttraction == null)
@@ -262,7 +240,6 @@ public class AttractionController(
         }
     }
 
-
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,USER")]
     [HttpGet("my-attractions")]
     public async Task<IActionResult> GetMyAttractions()
@@ -299,6 +276,7 @@ public class AttractionController(
             });
         }
     }
+
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,USER")]
     [HttpPost("add-review")]
     public async Task<IActionResult> AddReview([FromBody] ReviewDto reviewDto)
@@ -336,7 +314,6 @@ public class AttractionController(
         }
     }
 
-    // [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,USER")]
     [HttpGet("get-user-by-id")]
     public async Task<IActionResult> GetUserById([FromQuery] string id)
     {
@@ -391,6 +368,7 @@ public class AttractionController(
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
+
     [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,USER")]
     [HttpPost("unreport-attraction")]
     public async Task<IActionResult> UnreportAttraction([FromBody] UnreportAttractionDto unreportDto)
@@ -418,34 +396,29 @@ public class AttractionController(
         }
     }
 
-[Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,USER")]
-[HttpGet("my-reported-attractions")]
-public async Task<IActionResult> GetMyReportedAttractions()
-{
-    try
+    [Authorize(AuthenticationSchemes = "Bearer", Roles = "ADMIN,USER")]
+    [HttpGet("my-reported-attractions")]
+    public async Task<IActionResult> GetMyReportedAttractions()
     {
-        var userId = User.FindFirstValue("UserId");
-
-        if (string.IsNullOrEmpty(userId))
-            return Unauthorized("User not found or unauthorized.");
-
-        var reportedAttractions = await _attractionService.GetReportedAttractionsByUserAsync(userId);
-
-        return Ok(new
+        try
         {
-            Message = "Reported attractions fetched successfully.",
-            Count = reportedAttractions.Count,
-            Data = reportedAttractions
-        });
-    }
-    catch (Exception ex)
-    {
-        return StatusCode(500, $"Internal server error: {ex.Message}");
+            var userId = User.FindFirstValue("UserId");
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized("User not found or unauthorized.");
+
+            var reportedAttractions = await _attractionService.GetReportedAttractionsByUserAsync(userId);
+
+            return Ok(new
+            {
+                Message = "Reported attractions fetched successfully.",
+                Count = reportedAttractions.Count,
+                Data = reportedAttractions
+            });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 }
-
-
-}
-
-
-    

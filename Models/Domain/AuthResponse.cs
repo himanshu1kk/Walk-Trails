@@ -1,8 +1,7 @@
 using System.Text.Json.Serialization;
-using NzWalks.Models;
+namespace NzWalks.Models.Domain;
 
-namespace NzWalks.Models.DTO
-{
+
     public class AuthResponse
     {
 
@@ -12,4 +11,4 @@ namespace NzWalks.Models.DTO
         [JsonPropertyName("jwtToken")]
         public string JwtToken { get; set; } = "";
     }
-}
+

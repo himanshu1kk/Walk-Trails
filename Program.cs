@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using NzWalks.Data;
-using NzWalkspace.Mapping;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -55,15 +54,12 @@ builder.Services.AddSwaggerGen(options =>
 // Configure DbContexts
 builder.Services.AddDbContext<NzWalksDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("NzWalksConnectionString")));
-builder.Services.AddDbContext<NzWalksAuthDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("NzWalksAuthConnectionString")));
+
 
 // Register repositories
-builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
+
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IVerificationService, VerificationService>();
-builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IAttractionService, AttractionService>();
 builder.Services.AddScoped<IContactService, ContactService>();
@@ -71,15 +67,11 @@ builder.Services.AddScoped<IBlobService, BlobService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 
 
-// Register AutoMapper
-builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
-// Configure Identity
-builder.Services.AddIdentityCore<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("NzWalks")
-    .AddEntityFrameworkStores<NzWalksAuthDbContext>()
-    .AddDefaultTokenProviders();
+// builder.Services.AddIdentityCore<IdentityUser>()
+//     .AddRoles<IdentityRole>()
+//     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("NzWalks")
+//     .AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -91,7 +83,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 1;
 });
 
-// Add controllers
+
 builder.Services.AddControllers();
 
 // Configure authentication
@@ -122,9 +114,7 @@ builder.Services.AddCors(options =>
 });
 var app = builder.Build();
 
-// Validate AutoMapper configuration
-var mapper = app.Services.GetRequiredService<IMapper>();
-mapper.ConfigurationProvider.AssertConfigurationIsValid();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

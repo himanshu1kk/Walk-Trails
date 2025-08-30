@@ -9,6 +9,7 @@ using NzWalks.Models.DTO;
 using NzWalks.Services.Authentication;
 using NzWalks.Services.Verification;
 using NzWalks.Utils;
+using NzWalks.Models.Domain;
 
 namespace NzWalks.Controllers
 {

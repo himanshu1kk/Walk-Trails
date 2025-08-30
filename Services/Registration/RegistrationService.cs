@@ -21,76 +21,62 @@ namespace NzWalks.Services.Registration
 
         public async Task RegisterUserAsync(User user)
         {
-            Console.WriteLine("here1");
             user.Email = user.Email.Trim();
             user.FirstName = user.FirstName?.Trim();
             user.LastName = user.LastName?.Trim();
             user.Password = Hashing_md5.ComputeHash(user.Email, user.Password);
 
-            user.UserImageUrl = "some default image added by ui this image can be updated by update profile";
-
+            user.UserImageUrl = "user profile image ";//blob integration needs to be done here so that we can store a blob url
             user.RegistrationDate = DateTime.UtcNow;
+
             var existingUser = await dbContext.Users
-            .FirstOrDefaultAsync(u => u.Email == user.Email);
+                .FirstOrDefaultAsync(u => u.Email == user.Email);
 
             if (existingUser != null && existingUser.RegistrationStatus == RegistrationStatus.VERIFIED)
             {
-            throw new Exception("User with this email already exists and is verified.");
+                throw new Exception("User with this email already exists and is verified.");
             }
-            Console.WriteLine("here2");
-            
-              await verificationService.GenerateAndSendVerificationCodeAsync(
-              VerificationCommunicationType.EMAIL,
-              user.Email,
-              VerificationType.REGISTRATION_EMAIL
 
-          );
-          Console.WriteLine("here3");
+            await verificationService.GenerateAndSendVerificationCodeAsync(
+                VerificationCommunicationType.EMAIL,
+                user.Email,
+                VerificationType.REGISTRATION_EMAIL
+            );
 
             if (existingUser != null)
             {
-                // Update existing user (re-registration case)
                 user.UserId = existingUser.UserId;
                 dbContext.Entry(existingUser).CurrentValues.SetValues(user);
             }
-
             else
             {
-                Console.WriteLine("here3");
                 user.UserId = Guid.NewGuid().ToString();
                 await dbContext.Users.AddAsync(user);
             }
 
             await dbContext.SaveChangesAsync();
-
-        
         }
 
-
         public async Task VerifyUserForRegistration(VerificationDetails verificationDetails)
-    {
-        var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == verificationDetails.Email);
-
-        if (user == null)
-            throw new Exception($"User with Email {verificationDetails.Email} doesn't exist.");
-        if (user.RegistrationStatus == RegistrationStatus.VERIFIED)
-            return;
-
-        // Email verification (mandatory)
-        var verificationInfo = new VerificationInfo
         {
-            Email = verificationDetails.Email,
-            VerificationCode = verificationDetails.VerificationCodeEmail,
-            VerificationType = VerificationType.REGISTRATION_EMAIL,
-        };
+            var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == verificationDetails.Email);
 
-            Console.WriteLine("the veriifcation info is" + JsonSerializer.Serialize(verificationInfo));
-        await verificationService.VerifyIncomingVerificationCodeAsync(verificationInfo);
+            if (user == null)
+                throw new Exception($"User with Email {verificationDetails.Email} doesn't exist.");
+            if (user.RegistrationStatus == RegistrationStatus.VERIFIED)
+                return;
 
-        // Set verified status
-        user.RegistrationStatus = RegistrationStatus.VERIFIED;
-        await dbContext.SaveChangesAsync();
+            var verificationInfo = new VerificationInfo
+            {
+                Email = verificationDetails.Email,
+                VerificationCode = verificationDetails.VerificationCodeEmail,
+                VerificationType = VerificationType.REGISTRATION_EMAIL,
+            };
+
+            await verificationService.VerifyIncomingVerificationCodeAsync(verificationInfo);
+
+            user.RegistrationStatus = RegistrationStatus.VERIFIED;
+            await dbContext.SaveChangesAsync();
+        }
     }
 }
-    }
-

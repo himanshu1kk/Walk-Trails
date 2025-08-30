@@ -1,3 +1,4 @@
+namespace NzWalks.Models.Domain;
 public class ReportResponse
 {
     public bool Success { get; set; }
